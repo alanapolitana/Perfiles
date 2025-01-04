@@ -1,0 +1,37 @@
+.profile-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-modal h2 {
+    margin-bottom: 20px;
+  }
+  
+  .profile-modal form {
+        border: 2px solid red; /* Borde temporal para depuración */
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .profile-modal form input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .profile-modal form button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .modal {
+    border: 2px solid red; /* Borde temporal para depuración */
+  }
+  
