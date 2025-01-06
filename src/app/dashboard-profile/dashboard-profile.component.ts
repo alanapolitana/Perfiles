@@ -6,17 +6,18 @@ import { User } from '../services/user/user';
 import { UserService } from '../services/user/user.service';
 import { ModalService } from '../modal/modal.service';
 import { ProfileComponent } from './profile-template/profile-template.component';
+import { ImcTemplateComponent } from "./imc-template/imc-template.component";
 @Component({
   selector: 'app-dashboard-profile',
-  imports: [CommonModule, ProfileComponent],
+  imports: [CommonModule, ProfileComponent, ImcTemplateComponent],
   templateUrl: './dashboard-profile.component.html',
   styleUrl: './dashboard-profile.component.css'
 })
 export class DashboardProfileComponent {
   dashboardData: any[] = [];
-  isAuthenticated:boolean = false;
+  isAuthenticated: boolean = false;
 
-  
+
   user: User = {
     id: 0,
     email: '',
@@ -28,6 +29,8 @@ export class DashboardProfileComponent {
     confirmPassword: '',
   };
   @ViewChild('profile') profileTemplate!: TemplateRef<any>;
+  @ViewChild('imc') imcTemplate!: TemplateRef<any>;
+
 
   constructor(private loginService: LoginService, private router: Router, private userService: UserService, private modalService: ModalService) {
     /* this.dashboardData = dashboardData; */
@@ -39,7 +42,7 @@ export class DashboardProfileComponent {
         this.user = userData;
       },
     )
-    
+
     this.loginService.userLogin.subscribe((isAuthenticated) => {
       this.isAuthenticated = this.isAuthenticated;
     });
@@ -48,16 +51,20 @@ export class DashboardProfileComponent {
   }
 
 
-  
+
   logout() {
     this.loginService.methodlogout();
     this.isAuthenticated = false;
     this.router.navigate(['/']);
   }
 
-    goToProfile(): void {
-      this.modalService.component = this.profileTemplate;
-      this.modalService.openModal();
-    }
-    
+  goToProfile(): void {
+    this.modalService.component = this.profileTemplate;
+    this.modalService.openModal();
+  }
+
+  openIMCModal(): void {
+    this.modalService.component = this.imcTemplate;
+    this.modalService.openModal();
+  }
 } 

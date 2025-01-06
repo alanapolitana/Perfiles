@@ -1,19 +1,10 @@
-<!-- Lo que renderizo si el usuario se desloguea desde el dashboard -->
-<section *ngIf="isAuthenticated">
-  <div class="logout_dashboard">
-    <p>*Es necesario iniciar sesión para ver su Perfil, por favor inicie sesión desde la barra de navegación.</p>
-  </div>
-</section>
-
-<!-- Lo que renderizo si el usuario de logueo exitosamente -->
 <main>
   <section class="table_section" *ngIf="!isAuthenticated">
     <div class="user_banner">
       <div class="user_data">
         <div class="user_img" (click)="goToProfile()">
-        
         </div>
-        <!-- <span>Nombre de usuario</span> -->
+        <!-- Datos del usuario -->
         <span>ID: {{ user.id }}</span>
         <span>Email: {{ user.email }}</span>
         <span>Nombre: {{ user.first_name }}</span>
@@ -21,12 +12,10 @@
         <span>Dirección: {{ user.address }}</span>
         <span>Teléfono: {{ user.phone }}</span>
       </div>
-      <button class="logout_btn" (click)="logout()">
-        cerrar sesión
-      </button>
-      <button class="edit_profile_btn" (click)="goToProfile()">
-        Editar tu perfil
-      </button>
+      <button class="logout_btn" (click)="logout()">Cerrar sesión</button>
+      <button class="edit_profile_btn" (click)="goToProfile()">Editar tu perfil</button>
+      <!-- Nuevo botón para abrir el modal de IMC -->
+      <button class="imc_btn" (click)="openIMCModal()">Calcular IMC</button>
     </div>
   </section>
 </main>
@@ -35,4 +24,6 @@
   <app-profile-template></app-profile-template>
 </ng-template>
 
-
+<ng-template #imc>
+  <app-imc-template></app-imc-template>
+</ng-template>

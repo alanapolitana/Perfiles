@@ -1,25 +1,25 @@
-import { Component, Input } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, Input, OnChanges } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/user';
-
+import { ModalService } from '../../modal/modal.service';
 
 @Component({
   selector: 'app-profile-template',
   imports: [ReactiveFormsModule],
   templateUrl: './profile-template.component.html',
-  styleUrl: './profile-template.component.css'
+  styleUrls: ['./profile-template.component.css']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnChanges {
   @Input() user!: User;
   profileForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private userService: UserService, private modalService: ModalService) {
     this.profileForm = this.fb.group({
-      email: [''],
-      first_name: [''],
-      last_name: [''],
+      first_name: ['', Validators.required],
+      last_name: ['', Validators.required],
       address: [''],
-      phone: [''],
+      phone: ['', [Validators.pattern(/^\d+$/)]], // Solo números
     });
   }
 
@@ -32,8 +32,22 @@ export class ProfileComponent {
   onSave(): void {
     if (this.profileForm.valid) {
       const updatedUser = this.profileForm.value;
-      console.log('Datos actualizados del usuario:', updatedUser);
-      // Aquí puedes llamar al servicio para guardar los cambios.
+      this.userService.updateUser(updatedUser).subscribe({
+        next: (response) => {
+          console.log('Usuario actualizado con éxito:', response);
+          alert('Cambios guardados con éxito.');
+        },
+        error: (error) => {
+          console.error('Error al actualizar el usuario:', error);
+          alert('Hubo un problema al guardar los cambios.');
+        },
+      });
+    } else {
+      alert('Por favor, revisa los campos e inténtalo de nuevo.');
     }
+  }
+
+  onCancel(): void {
+    this.modalService.closeModal(); // Cierra el modal sin guardar cambios
   }
 }
